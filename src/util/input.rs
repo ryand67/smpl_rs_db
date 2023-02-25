@@ -4,6 +4,7 @@ pub struct InputBuffer {
     pub buffer: Vec<char>,
     pub buffer_length: usize,
     pub input_length: usize,
+    pub buffer_to_string: String,
 }
 
 impl InputBuffer {
@@ -12,6 +13,15 @@ impl InputBuffer {
             buffer: Vec::new(),
             buffer_length: 0,
             input_length: 0,
+            buffer_to_string: String::new(),
+        }
+    }
+
+    pub fn is_meta_cmd(&self) -> bool {
+        if self.buffer_to_string.starts_with('.') {
+            true
+        } else {
+            false
         }
     }
 
@@ -26,6 +36,13 @@ impl InputBuffer {
 
                 self.input_length = n - 1;
                 self.buffer = buf.chars().collect();
+
+                let mut s: String = self.buffer.clone().into_iter().collect();
+                if s.ends_with('\n') {
+                    s.remove(s.len() - 1);
+                }
+
+                self.buffer_to_string = s;
             }
             Err(e) => {
                 println!("{:?}", e);
@@ -36,13 +53,5 @@ impl InputBuffer {
 
     pub fn free_input_buffer(&mut self) {
         drop(self);
-    }
-
-    pub fn buffer_to_string(&mut self) -> String {
-        let mut s: String = self.buffer.clone().into_iter().collect();
-        if s.ends_with('\n') {
-            s.remove(s.len() - 1);
-        }
-        s
     }
 }
