@@ -8,16 +8,10 @@ pub enum TableErrors {
 
 #[derive(Default, Debug)]
 pub struct Table {
-    pub num_rows: usize,
-    pub pages: Vec<Page>,
-}
-
-#[derive(Default, Debug)]
-pub struct Page {
     pub rows: Vec<Row>,
 }
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct Row {
     id: usize,
     username: String,
@@ -42,5 +36,12 @@ impl Row {
             }),
             Err(e) => Err(e),
         }
+    }
+
+    pub fn print_row(&self) {
+        println!(
+            "id: {} - username: {} - email: {}",
+            self.id, self.username, self.email
+        );
     }
 }

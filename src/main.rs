@@ -27,8 +27,7 @@ fn main() {
             }
         }
 
-        let mut statement = Statement::new(ib.buffer_to_string.clone(), &table);
-        dbg!(&statement.table);
+        let mut statement = Statement::new(ib.buffer_to_string.clone(), &mut table);
 
         match statement.prepare_statement() {
             Ok(_) => statement.execute_statement(),
