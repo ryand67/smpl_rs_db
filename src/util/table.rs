@@ -8,6 +8,7 @@ pub enum TableErrors {
 
 #[derive(Default, Debug)]
 pub struct Table {
+    // TODO: Make this an array probably
     pub rows: Vec<Row>,
 }
 
