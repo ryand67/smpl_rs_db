@@ -1,9 +1,13 @@
-use util::{print_prompt, CommandError, InputBuffer, MetaCommand, MetaCommandResult, Statement};
+use util::{
+    print_prompt, CommandError, InputBuffer, MetaCommand, MetaCommandResult, Statement, Table,
+};
 
 mod util;
 
 fn main() {
     let mut ib = InputBuffer::new();
+    let mut table = Table::default();
+
     loop {
         print_prompt();
         ib.read_line();
@@ -23,7 +27,8 @@ fn main() {
             }
         }
 
-        let mut statement = Statement::new(ib.buffer_to_string.clone());
+        let mut statement = Statement::new(ib.buffer_to_string.clone(), &table);
+        dbg!(&statement.table);
 
         match statement.prepare_statement() {
             Ok(_) => statement.execute_statement(),
