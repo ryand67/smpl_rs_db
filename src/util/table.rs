@@ -1,4 +1,4 @@
-use std::num::ParseIntError;
+use std::{fs::File, num::ParseIntError, path::PathBuf};
 
 pub const TABLE_MAX_ROWS: u32 = 100 * 4096;
 
@@ -6,10 +6,21 @@ pub enum TableErrors {
     TableFull,
 }
 
-#[derive(Default, Debug)]
+#[derive(Debug)]
 pub struct Table {
     // TODO: Make this an array probably
     pub rows: Vec<Row>,
+    pub pager: File,
+}
+
+impl Table {
+    pub fn new(path: PathBuf) -> Self {
+        let pager = File::open(path).expect("Error opening file");
+        Self {
+            rows: Vec::new(),
+            pager,
+        }
+    }
 }
 
 #[derive(Default, Debug, Clone)]

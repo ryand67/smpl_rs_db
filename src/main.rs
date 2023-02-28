@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use util::{
     print_prompt, CommandError, InputBuffer, MetaCommand, MetaCommandResult, Statement, Table,
 };
@@ -6,7 +8,7 @@ mod util;
 
 fn main() {
     let mut ib = InputBuffer::new();
-    let mut table = Table::default();
+    let mut table = Table::new(PathBuf::from("my_test_db"));
 
     loop {
         print_prompt();
